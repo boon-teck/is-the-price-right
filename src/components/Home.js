@@ -1,8 +1,19 @@
 import React from 'react';
+import {Link} from 'react-router-dom'
 
-function Home(props) {
+function Home({setSearchItem, searchItem}) {
+    console.log(searchItem)
     return (
-        <input name="search" placeholder="What do you want to search today?"/>
+        <form>
+            <input
+                 className=".input-lg col-xs-4"
+                 onChange={(e) => setSearchItem(e.target.value)}
+                 name="search"
+                 placeholder="Search"
+             />
+
+            <Link to='/searchresult'><button>$</button></Link>
+        </form>
     );
 }
 
