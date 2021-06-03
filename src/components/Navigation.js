@@ -8,7 +8,7 @@ function Navigation(props) {
         <>
             <Navbar bg="dark" variant="dark">
                 <Container>
-                    <Navbar.Brand href="#home"><img src={brand}/></Navbar.Brand>
+                    <NavLink to="/"><img src={brand}/></NavLink>
                     <Nav className="me-auto">
                         <NavLink to="/" exact className="nav-link">Home</NavLink>
                         <NavLink to="/about" className="nav-link" >About</NavLink>

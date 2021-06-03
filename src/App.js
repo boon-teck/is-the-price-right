@@ -13,6 +13,7 @@ import {Container, Row} from "react-bootstrap";
 import logo from './images/logo200x200.png'
 import Searchresult from "./components/Searchresult";
 import Comparison from "./components/Comparison";
+import About from "./components/About"
 
 
 function App() {
@@ -46,23 +47,38 @@ function App() {
     function fairprice() {
         axios.get("https://www.fairprice.com.sg/search?query=bananas")
             .then(resp => {
-                // get
                 let $ = cheerio.load(resp.data)
                 console.log(resp.data)
-                console.log($)
-                $("div[data-testid=product]").children().each((i,el) => {
+                $('div[data-testid=product]').children().each((i,el) => {
                     // console.log($(this).find("span[weight=normal]").html());
                     // console.log($("div", el).children().html())
                     //find name because name is in <span weight="normal">...</span>
-                    let ns = $('span[weight=normal]',el).text()
+                    let imageLink = $('img[objectfit=true]','div[data-testid=recommended-product-image]').attr('src')
+                    let ima = $('div.jcRVFF div.esytwL div[data-testid=recommended-product-image] div',el).attr('src')
+                    let nameItem = $('span[weight=normal]',el).text()
                         // <span weight="black">...</span>
-                let ps = $('span[weight=black]',el).text()//.eq(0).children().eq(0).children().text())
-                if(ns){
-                        console.log("---ebere--")
-                        console.log("price", ps)
-                        console.log("name", ns)
+                    let priceItem = $('span[weight=black]',el).text()//.eq(0).children().eq(0).children().text())
+                if(nameItem){
+                        console.log("---product--")
+                        console.log("price", priceItem)
+                        console.log("name", nameItem)
+                        console.log("image link", imageLink)
+                    console.log("imaaaaaaaa", ima)
+                    console.log('node', el)
                     }
                 })
+                $('div[data-testid=recommended-product-image]').children().each((i,ele) => {
+                    let imageLinks = $('img[objectfit=true]',ele).attr('src')
+                    if(imageLinks){
+                        console.log("image linksssss", imageLinks)
+                    }
+                })
+                // $('div[data-testid=product]').each((i,element) => {
+                //     let images = $('div div.jcRVFF',element).attr('src')
+                //     if(images){
+                //         console.log("imagesssssssss", images)
+                //     }
+                // })
             })
     }
 
@@ -88,7 +104,7 @@ function App() {
                   <Route path="/searchresult">
                       <Searchresult shopeeSearchList={shopeeSearchList}/>
                   </Route>
-                  <Route path="/about"></Route>
+                  <Route path="/about"><About /></Route>
                   <Route path="/comparison"><Comparison /></Route>
               </Switch>
           </Container>
