@@ -12,7 +12,7 @@ function Navigation(props) {
                     <Nav className="me-auto">
                         <NavLink to="/" exact className="nav-link">Home</NavLink>
                         <NavLink to="/about" className="nav-link" >About</NavLink>
-                        <NavLink to="/features" className="nav-link" >Features</NavLink>
+                        <NavLink to="/comparison" className="nav-link" >Comparison</NavLink>
                     </Nav>
                 </Container>
             </Navbar>

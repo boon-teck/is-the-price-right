@@ -12,7 +12,7 @@ function Home({setSearchItem, searchItem}) {
                  placeholder="Search"
              />
 
-            <Link to='/searchresult'><button>$</button></Link>
+            <Link to='/searchresult' className={'btn btn-outline-dark'}>$</Link>
         </form>
     );
 }

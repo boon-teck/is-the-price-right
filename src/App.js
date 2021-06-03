@@ -12,12 +12,14 @@ import Navigation from "./components/Navigation";
 import {Container, Row} from "react-bootstrap";
 import logo from './images/logo200x200.png'
 import Searchresult from "./components/Searchresult";
+import Comparison from "./components/Comparison";
 
 
 function App() {
     //state
     let [searchItem, setSearchItem] = useState('mask')
     let [shopeeSearchList, setShopeeSearchList] = useState([])
+    let [comparisonList, setComparisonList] = useState([]) //how do i pass it into this?
 
 
     //Shopee API wrapper listof50 objects
@@ -48,24 +50,24 @@ function App() {
                 let $ = cheerio.load(resp.data)
                 console.log(resp.data)
                 console.log($)
-                // $("div[data-testid="product").children().each((i,el) => {
-                //     // console.log($(this).find("span[weight=normal]").html());
-                //     // console.log($("div", el).children().html())
-                //     //find name because name is in <span weight="normal">...</span>
-                //     let ns = $('span[weight=normal]',el).text()
-                //         <span weight="black">...</span>
-                // let ps = $('span[weight=black]',el).text()//.eq(0).children().eq(0).children().text())
-                // if(ns){
-                //         console.log("---ebere--")
-                //         console.log("price", ps)
-                //         console.log("name", ns)
-                //     }
-                // })
+                $("div[data-testid=product]").children().each((i,el) => {
+                    // console.log($(this).find("span[weight=normal]").html());
+                    // console.log($("div", el).children().html())
+                    //find name because name is in <span weight="normal">...</span>
+                    let ns = $('span[weight=normal]',el).text()
+                        // <span weight="black">...</span>
+                let ps = $('span[weight=black]',el).text()//.eq(0).children().eq(0).children().text())
+                if(ns){
+                        console.log("---ebere--")
+                        console.log("price", ps)
+                        console.log("name", ns)
+                    }
+                })
             })
     }
 
     useEffect(shopeeRun, [searchItem]);
-    useEffect(fairprice, [searchItem]);
+    useEffect(fairprice, []);
 
     console.log(shopeeSearchList)
 
@@ -73,7 +75,7 @@ function App() {
       <>
       <Router>
           <Navigation />
-          <Container>
+          <Container className="mt-4">
               <Switch>
                   <Route path="/" exact>
                       <Row className="justify-content-md-center">
@@ -87,7 +89,7 @@ function App() {
                       <Searchresult shopeeSearchList={shopeeSearchList}/>
                   </Route>
                   <Route path="/about"></Route>
-                  <Route path="/features"></Route>
+                  <Route path="/comparison"><Comparison /></Route>
               </Switch>
           </Container>
       </Router>
