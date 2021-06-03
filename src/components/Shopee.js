@@ -1,13 +1,18 @@
 import React from 'react';
-import {Card, Button, Col} from 'react-bootstrap'
+import {Card, Col} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 
 function Shopee({shopeeSearchList}) {
+    let cardStyle = {
+        backgroundColor: 'white',
+        width: '20rem'
+    }
+
     return (
         <Col sm={6}>
             <h3 style={{textAlign: 'left'}}>Shopee</h3>
             {shopeeSearchList.map((item, index) => //*I can make this into another component here probably
-                    <Card key={item.id} style={{ width: '15rem' }}>
+                    <Card key={item.id} style={cardStyle}>
                         <Card.Img variant="top" src= {`https://cf.shopee.sg/file/${item.image}&quot`}/>
                         <Card.Body>
                             <Card.Title>{item.name}</Card.Title>

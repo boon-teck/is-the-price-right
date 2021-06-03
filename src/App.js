@@ -18,10 +18,10 @@ import About from "./components/About"
 
 function App() {
     //state
-    let [searchItem, setSearchItem] = useState('mask')
+    let [searchItem, setSearchItem] = useState('')
     let [shopeeSearchList, setShopeeSearchList] = useState([])
-    let [comparisonList, setComparisonList] = useState([]) //how do i pass it into this?
-
+    let [fairpriceList, setFairpriceList] = useState([])
+    //let [comparisonList, setComparisonList] = useState([]) //ran out of time
 
     //Shopee API wrapper listof50 objects
     const Shopee = require("shopee");
@@ -36,73 +36,72 @@ function App() {
             priceMax: 30000000
         });
         setShopeeSearchList(product)
-        // console.log(product)
-        // console.log(product[0].name);
-        // console.log(product[0].image);
-        // console.log(product[0].price);
-        //need to map for each //what to do to store data? store in state? have to useEffect?
     }
+
+    //Lazada web scraping does not work
 
     //FAIRPRICE
     function fairprice() {
-        axios.get("https://www.fairprice.com.sg/search?query=bananas")
+        axios.get(`https://www.fairprice.com.sg/search?query=${searchItem}`)
             .then(resp => {
                 let $ = cheerio.load(resp.data)
-                console.log(resp.data)
                 $('div[data-testid=product]').children().each((i,el) => {
                     // console.log($(this).find("span[weight=normal]").html());
                     // console.log($("div", el).children().html())
                     //find name because name is in <span weight="normal">...</span>
                     let imageLink = $('img[objectfit=true]','div[data-testid=recommended-product-image]').attr('src')
-                    let ima = $('div.jcRVFF div.esytwL div[data-testid=recommended-product-image] div',el).attr('src')
+                    // let ima = $('div.jcRVFF div.esytwL div[data-testid=recommended-product-image] div',el).attr('src')
                     let nameItem = $('span[weight=normal]',el).text()
                         // <span weight="black">...</span>
                     let priceItem = $('span[weight=black]',el).text()//.eq(0).children().eq(0).children().text())
                 if(nameItem){
-                        console.log("---product--")
-                        console.log("price", priceItem)
-                        console.log("name", nameItem)
-                        console.log("image link", imageLink)
-                    console.log("imaaaaaaaa", ima)
-                    console.log('node', el)
+                        // console.log("---product--")
+                        // console.log("price", priceItem)
+                        // console.log("name", nameItem)
+                        // console.log("image link", imageLink)
+                    let obj = {
+                        "name": nameItem,
+                        "price": priceItem,
+                        "imageLink": imageLink
+                    }
+                    setFairpriceList(prevState => [...prevState, obj])
                     }
                 })
-                $('div[data-testid=recommended-product-image]').children().each((i,ele) => {
-                    let imageLinks = $('img[objectfit=true]',ele).attr('src')
-                    if(imageLinks){
-                        console.log("image linksssss", imageLinks)
-                    }
-                })
-                // $('div[data-testid=product]').each((i,element) => {
-                //     let images = $('div div.jcRVFF',element).attr('src')
-                //     if(images){
-                //         console.log("imagesssssssss", images)
+                ////This works partially
+                // $('div[data-testid=recommended-product-image]').children().each((i,ele) => {
+                //     let imageLinks = $('img[objectfit=true]',ele).attr('src')
+                //     if(imageLinks){
+                //         console.log("image linksssss", imageLinks)
                 //     }
                 // })
             })
     }
 
+
+
     useEffect(shopeeRun, [searchItem]);
-    useEffect(fairprice, []);
+    useEffect(fairprice, [searchItem]);
 
-    console.log(shopeeSearchList)
+    // console.log(shopeeSearchList)
+    console.log(fairpriceList)
 
-  return (
+
+    return (
       <>
       <Router>
-          <Navigation />
+          <Navigation reset={setFairpriceList}/>
           <Container className="mt-4">
               <Switch>
                   <Route path="/" exact>
                       <Row className="justify-content-md-center">
-                          <img src={logo} />
+                          <img src={logo} alt='logo'/>
                       </Row>
                       <Row className="justify-content-md-center">
                           <Home searchItem={searchItem} setSearchItem={setSearchItem}/>
                       </Row>
                   </Route>
                   <Route path="/searchresult">
-                      <Searchresult shopeeSearchList={shopeeSearchList}/>
+                      <Searchresult shopeeSearchList={shopeeSearchList} fairpriceList={fairpriceList}/>
                   </Route>
                   <Route path="/about"><About /></Route>
                   <Route path="/comparison"><Comparison /></Route>

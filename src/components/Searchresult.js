@@ -1,16 +1,15 @@
 import React from 'react';
-import {Button, Card, Row, Col} from "react-bootstrap";
-import {Link} from "react-router-dom";
-import Comparison from "./Comparison";
+import {Row} from "react-bootstrap";
 import Shopee from "./Shopee";
 import Fairprice from "./Fairprice"
 
-function Searchresult({shopeeSearchList}) {
-    console.log("test",shopeeSearchList)
+function Searchresult({shopeeSearchList, fairpriceList}) {
+    console.log("shopee list",shopeeSearchList)
+    console.log("fairprice list",fairpriceList)
     return (
         <Row>
             <Shopee shopeeSearchList={shopeeSearchList}/>
-            <Fairprice />
+            <Fairprice fairpriceList={fairpriceList}/>
         </Row>
     );
 }
