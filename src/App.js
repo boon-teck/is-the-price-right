@@ -49,7 +49,8 @@ function App() {
                     // console.log($(this).find("span[weight=normal]").html());
                     // console.log($("div", el).children().html())
                     //find name because name is in <span weight="normal">...</span>
-                    let imageLink = $('img[objectfit=true]','div[data-testid=recommended-product-image]').attr('src')
+                    // let imageLink = $('img[objectfit=true]','div[data-testid=recommended-product-image]').attr('src')
+                    let imageLink = $('img[objectfit=true]').eq(0).attr('src')
                     // let ima = $('div.jcRVFF div.esytwL div[data-testid=recommended-product-image] div',el).attr('src')
                     let nameItem = $('span[weight=normal]',el).text()
                         // <span weight="black">...</span>
@@ -67,12 +68,15 @@ function App() {
                     setFairpriceList(prevState => [...prevState, obj])
                     }
                 })
-                ////This works partially
+                // //This works partially
                 // $('div[data-testid=recommended-product-image]').children().each((i,ele) => {
                 //     let imageLinks = $('img[objectfit=true]',ele).attr('src')
                 //     if(imageLinks){
                 //         console.log("image linksssss", imageLinks)
                 //     }
+                // })
+                // $('img[objectfit=true]').each((i,el) => {
+                //     console.log($(el).attr('src'))
                 // })
             })
     }
