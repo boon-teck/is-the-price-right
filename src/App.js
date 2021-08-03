@@ -3,7 +3,7 @@ import "./App.css";
 import axios from "axios";
 import cheerio from 'cheerio';
 import {
-    BrowserRouter as Router,
+    HashRouter as Router,
         Switch,
         Route
 } from "react-router-dom";
@@ -92,7 +92,7 @@ function App() {
 
     return (
       <>
-      <Router>
+      <Router basename="/is-the-price-right">
           <Navigation reset={setFairpriceList}/>
           <Container className="mt-4">
               <Switch>
